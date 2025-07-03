@@ -1,41 +1,66 @@
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   static const mobileBreakpoint = 767.0;
   static const desktopBreakpoint = 1439.0;
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool _obscureText = true;
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  void handleLogin() {
+    // TODO: Implement actual login logic here
+
+    Navigator.pushReplacementNamed(context, '/dashboard');
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final isMobile = size.width <= mobileBreakpoint;
-    final isDesktop = size.width > mobileBreakpoint && size.width <= desktopBreakpoint;
-    final isLargeDesktop = size.width > desktopBreakpoint;
+    final isMobile = size.width <= LoginScreen.mobileBreakpoint;
+    final isDesktop =
+        size.width > LoginScreen.mobileBreakpoint &&
+        size.width <= LoginScreen.desktopBreakpoint;
+    final isLargeDesktop = size.width > LoginScreen.desktopBreakpoint;
 
     Widget loginFormContent = Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Semantics(
           label:
-          'Blood Connect logo with a drop of blood with a white medical cross and heart shape combined, with tagline Saving Lives Since 2010',
+              'Blood Connect logo with a drop of blood with a white medical cross and heart shape combined, with tagline Saving Lives Since 2010',
           child: Image.asset(
             'assets/BCT_logo.png',
             width: 400,
             height: 200,
             fit: BoxFit.contain,
-            errorBuilder: (context, error, stackTrace) => const Icon(Icons.bloodtype, size: 80, color: Colors.red),
+            errorBuilder:
+                (context, error, stackTrace) =>
+                    const Icon(Icons.bloodtype, size: 80, color: Colors.red),
           ),
         ),
+
         const SizedBox(height: 24),
+
         const Text(
           'Login to your Account',
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
+
         const SizedBox(height: 24),
+
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32.0),
           child: TextField(
+            controller: emailController,
             decoration: InputDecoration(
               hintText: 'Email',
               prefixIcon: const Icon(Icons.person_outline),
@@ -44,37 +69,56 @@ class LoginScreen extends StatelessWidget {
             keyboardType: TextInputType.emailAddress,
           ),
         ),
+
         const SizedBox(height: 16),
+
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32.0),
           child: TextField(
+            controller: passwordController,
             decoration: InputDecoration(
               hintText: 'Password',
               prefixIcon: const Icon(Icons.lock_outline),
               border: const UnderlineInputBorder(),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _obscureText ? Icons.visibility : Icons.visibility_off,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+              ),
             ),
-            obscureText: true,
+            obscureText: _obscureText,
           ),
         ),
+
         const SizedBox(height: 32),
+
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32.0),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
               minimumSize: const Size.fromHeight(48),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
-            onPressed: () {
-              // Example: Navigate to a new screen
-              // Navigator.pushNamed(context, '/dashboard');
-            },
-            child: const Text('Sign In', style: TextStyle(fontSize: 18, color: Colors.white)),
+            onPressed: handleLogin,
+            child: const Text(
+              'Sign In',
+              style: TextStyle(fontSize: 18, color: Colors.white),
+            ),
           ),
         ),
+
         const SizedBox(height: 24),
         const Text('or sign in with'),
         const SizedBox(height: 24),
+
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 64.0),
           child: Row(
@@ -101,22 +145,28 @@ class LoginScreen extends StatelessWidget {
             ],
           ),
         ),
+
         const SizedBox(height: 24),
+
         Wrap(
           alignment: WrapAlignment.center,
           children: [
             const Text("Don’t have an Account? "),
+
             GestureDetector(
               onTap: () {
                 // Navigator.pushNamed(context, '/signup');
               },
               child: const Text(
                 'sign up',
-                style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                style: TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
               ),
-            )
+            ),
           ],
-        )
+        ),
       ],
     );
 
@@ -133,7 +183,9 @@ class LoginScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 64),
           child: Card(
             elevation: 8,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 40),
               child: loginFormContent,
@@ -145,10 +197,7 @@ class LoginScreen extends StatelessWidget {
       scaffoldBody = Center(child: loginFormContent);
     }
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: scaffoldBody,
-    );
+    return Scaffold(backgroundColor: Colors.white, body: scaffoldBody);
   }
 }
 

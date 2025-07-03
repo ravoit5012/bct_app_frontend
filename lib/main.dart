@@ -1,5 +1,6 @@
+import 'package:bct/pages/dashboard.dart';
 import 'package:flutter/material.dart';
-import 'login.dart'; // Import the login page
+import 'pages/login.dart';
 
 void main() {
   runApp(const BloodConnectApp());
@@ -11,19 +12,20 @@ class BloodConnectApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Blood Connect',
+      title: 'BloodConnect',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-        fontFamily: 'Roboto',
-      ),
+
+      theme: ThemeData(primarySwatch: Colors.red, fontFamily: 'Roboto'),
+
       initialRoute: '/',
       routes: {
-        // '/': (context) => const LoginScreen(),
         '/': (context) => const LoginScreen(),
-        '/dashboard': (context) => Scaffold(body: Center(child: Text("Dashboard Placeholder"))), // temporary
-        '/signup': (context) => Scaffold(body: Center(child: Text("Sign Up Placeholder"))), // temporary
-        // Add more routes like '/signup': (_) => const SignUpScreen(), etc.
+
+        '/dashboard': (context) => DashBoard(),
+
+        '/signup':
+            (context) =>
+                Scaffold(body: Center(child: Text("Sign Up Placeholder"))),
       },
     );
   }
